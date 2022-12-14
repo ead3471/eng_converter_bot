@@ -4,6 +4,16 @@ from dataclasses import dataclass
 from typing import List
 
 
+def make_row_keyboard(items: list[str]) -> ReplyKeyboardMarkup:
+    """
+    Создаёт реплай-клавиатуру с кнопками в один ряд
+    :param items: список текстов для кнопок
+    :return: объект реплай-клавиатуры
+    """
+    row = [KeyboardButton(text=item) for item in items]
+    return ReplyKeyboardMarkup(keyboard=[row], resize_keyboard=True)
+
+
 @dataclass
 class MeasureButton:
     title: str
@@ -40,8 +50,8 @@ def create_keyboard(buttons_list: List[List[MeasureButton]], row_width: int = 3)
 main_keyboard = create_keyboard(main_keyboard_buttons)
 
 
-def get_measure_from_measure_keyboard_callback_data(callback_data: str) -> MeasureButton:
-    for row in main_keyboard_buttons:
+def get_pressed_button(keyboard_buttons: List[List[MeasureButton]], callback_data: str) -> MeasureButton:
+    for row in keyboard_buttons:
         for button in row:
             if button.callback == callback_data:
                 return button
@@ -49,11 +59,12 @@ def get_measure_from_measure_keyboard_callback_data(callback_data: str) -> Measu
     return Temperature
 
 
-temperature_measure_buttons: List[List[MeasureButton]] = [
+temperature_eu_buttons: List[List[MeasureButton]] = [
     [
         MeasureButton('C', 'celsius_temp_units', Temperature.SupportedUnits.C),
-        MeasureButton('F', 'celsius_temp_units', Temperature.SupportedUnits.F),
-        MeasureButton('K', 'celsius_temp_units', Temperature.SupportedUnits.K),
+        MeasureButton('F', 'fahrenheit_temp_units',
+                      Temperature.SupportedUnits.F),
+        MeasureButton('K', 'kelvin_temp_units', Temperature.SupportedUnits.K),
     ]
-
 ]
+temperature_units_keyboard = create_keyboard(temperature_eu_buttons)
