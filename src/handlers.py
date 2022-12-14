@@ -28,11 +28,10 @@ async def process_callback_button1(callback_query: types.CallbackQuery):
     await bot.send_message(callback_query.from_user.id, f'Выбрана {pressed_button.title}. Укажите значение')
 
 
-@dp.callback_query_handler(lambda c: c.data))
-async def process_callback_button1(callback_query: types.CallbackQuery):
-    pressed_button= keyboards.get_measure_from_measure_keyboard_callback_data(
-        callback_query.data)
-    selected_measure=pressed_button.callback
+@dp.callback_query_handler(lambda c: c.data)
+async def process_callback_value(callback_query: types.CallbackQuery):
+    
+
 
     global current_measure_class
     current_measure_class=selected_measure
