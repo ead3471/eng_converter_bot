@@ -1,0 +1,28 @@
+{
+    "ru":{
+        "Pressure":"Давление",
+        "Temperature":"Температура",
+        "Mass Flow" : "Массовый расход",
+        "Analog sensor measure": "Аналоговые измерения",
+        "Thermoresistros": "Терморезисторы",
+        "kg/h":"кг/ч",
+        "kg/d":"кг/день",
+        "kg/s":"кг/сек",
+        "t/h":"тонн/час",
+        "t/s":"тонн/сек",
+        "mm.water.column":"",
+        "m.water.column":"",
+        "mm.hg.column":"",
+        "bar":"",
+        "atm":"",
+        "Pa":"",
+        "kPa":"",
+        "MPa":"",
+        "kgf/cm2":"",
+        "kgf/m2":"",
+        "mA":"мА",
+        "V":"В"
+    }
+
+
+}

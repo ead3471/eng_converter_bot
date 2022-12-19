@@ -3,19 +3,23 @@ from misc import dp, bot
 from aiogram import types
 from keyboards import (main_keyboard,
                        main_keyboard_buttons,
-                       create_eu_keyboard_for_measure,
-                       get_pressed_eu_button)
+                       create_eu_keyboard_for_measure)
 import keyboards
 from aiogram.dispatcher import FSMContext
 from state_machine import Convert
-import aiogram.utils.markdown as md
+from eng_unit_converter.measure import Measure
+from aiogram.utils.markdown import text, hbold
 
 
 @dp.message_handler(commands=['start'])
 async def start_converting(message: types.Message, state: FSMContext):
     await Convert.choosing_measure_type.set()
     await bot.send_message(chat_id=message.from_user.id,
-                           text="Выберете тип измерения",
+                           text=text(
+                               hbold(
+                                   f"Hello, {message.from_user.username}!\n"),
+                               "I'm a engineering units converter bot.\n",
+                               "Choose type of measure please.s"),
                            reply_markup=main_keyboard)
 
 
@@ -25,7 +29,7 @@ async def process_cancel(callback_query: types.CallbackQuery,
                          state: FSMContext):
     await Convert.choosing_measure_type.set()
     await bot.send_message(chat_id=callback_query.from_user.id,
-                           text="Выберете тип измерения",
+                           text="Choose measure type.",
                            reply_markup=main_keyboard)
 
 
@@ -37,8 +41,12 @@ async def process_measure_type_choosen(callback_query: types.CallbackQuery,
                                                   callback_query.data)
     await state.update_data(measure_class=pressed_button.measure_class)
 
-    await bot.send_message(callback_query.from_user.id,
-                           f'Выбрана {pressed_button.title}. Укажите значение')
+    await bot.send_message(
+        callback_query.from_user.id,
+        text=text(
+            hbold(str(pressed_button.title)),
+            'is selected.'
+            '\nSet value please.'))
     await Convert.next()
 
 
@@ -47,13 +55,14 @@ async def process_value(message: types.Message, state: FSMContext):
     current_measure_value = float(message.text)
     measure_class = (await state.get_data())['measure_class']
     await state.update_data(value=float(current_measure_value))
-    await bot.send_message(message.chat.id, "Укажите единицы измерения",
-                           reply_markup=create_eu_keyboard_for_measure(measure_class))
+    await bot.send_message(message.chat.id, "Select measure units please.",
+                           reply_markup=create_eu_keyboard_for_measure(
+                               measure_class))
     await Convert.next()
 
 
-@dp.callback_query_handler(lambda c: c.data and c.data.endswith('_units'),
-                           state=Convert.choosing_eng_unit)
+@ dp.callback_query_handler(lambda c: c.data and c.data.endswith('_units'),
+                            state=Convert.choosing_eng_unit)
 async def process_eng_units_choosen(callback_query: types.CallbackQuery,
                                     state: FSMContext):
     user_data = await state.get_data()
@@ -63,22 +72,25 @@ async def process_eng_units_choosen(callback_query: types.CallbackQuery,
     selected_units = pressed_button.measure_class
     await state.update_data(eu=selected_units)
 
-    current_measure = user_data['measure_class'](
+    current_measure: Measure = user_data['measure_class'](
         user_data['value'], selected_units)
 
     await state.update_data(measure=current_measure)
 
     await bot.send_message(callback_query.from_user.id,
-                           (f'Текущее значение {current_measure}.\n'
-                            'Укажите единицы для перевода'),
+                           text=text(
+                               'Current value is\n',
+                               hbold(current_measure),
+                               '\nSelect new measure units please.',
+                           ),
                            reply_markup=create_eu_keyboard_for_measure(
                                measure_class)
                            )
     await Convert.next()
 
 
-@ dp.callback_query_handler(lambda c: c.data and c.data.endswith('_units'),
-                            state=Convert.choosing_new_eng_unit)
+@dp.callback_query_handler(lambda c: c.data and c.data.endswith('_units'),
+                           state=Convert.choosing_new_eng_unit)
 async def process_convertion_units_choosen(callback_query: types.CallbackQuery,
                                            state: FSMContext):
 
@@ -89,10 +101,11 @@ async def process_convertion_units_choosen(callback_query: types.CallbackQuery,
 
     new_measure_eu = pressed_button.measure_class
 
-    converted_measure = user_data['measure'].convert_to(new_measure_eu)
+    current_measure: Measure = user_data['measure']
+    converted_measure: Measure = current_measure.convert_to(
+        new_measure_eu)
 
     await bot.send_message(callback_query.from_user.id,
-                           (f'Конвертированное значение\n{converted_measure}\n'
-                            'Укажите новые единицы для перевода или вернитесь'
-                            ' в начало'),
+                           text=str(converted_measure)
+
                            )
