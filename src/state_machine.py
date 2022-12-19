@@ -8,6 +8,11 @@ from keyboards import main_keyboard
 
 class Convert(StatesGroup):
     choosing_measure_type = State()
-    set_value = State()
-    choosing_eng_unit = State()
+    set_measure_value = State()
+    choosing_measure_eng_unit = State()
+
+    choosing_analog_scale_low = State()
+    choosing_analog_scale_hi = State()
+    choosing_analog_eu = State()
+
     choosing_new_eng_unit = State()

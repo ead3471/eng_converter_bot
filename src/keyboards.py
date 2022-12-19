@@ -138,16 +138,23 @@ measure_units: Dict[type, List[List[MeasureButton]]] = {
         ]
     ],
     AnalogSensorMeasure: [
+
         [
-            MeasureButton('%', '%_units',
-                          AnalogSensorMeasure.SupportedUnits.mA_4_20),
+            MeasureButton('%', 'percent_units',
+                          AnalogSensorMeasure.SupportedUnits.persent),
             MeasureButton('4-20 mA', '4_20_units',
                           AnalogSensorMeasure.SupportedUnits.mA_4_20),
             MeasureButton('0-20 мА', '0_20_units',
                           AnalogSensorMeasure.SupportedUnits.mA_0_20),
+        ],
+
+        [
             MeasureButton('1-5 V', '1_5_units',
                           AnalogSensorMeasure.SupportedUnits.V_1_5),
+            MeasureButton('Physical units', 'Physical_units',
+                          AnalogSensorMeasure.SupportedUnits.MEASURE),
         ]
+
 
     ]
 

@@ -7,7 +7,7 @@ from keyboards import (main_keyboard,
 import keyboards
 from aiogram.dispatcher import FSMContext
 from state_machine import Convert
-from eng_unit_converter.measure import Measure
+from eng_unit_converter.measure import Measure, AnalogSensorMeasure
 from aiogram.utils.markdown import text, hbold
 
 
@@ -50,8 +50,8 @@ async def process_measure_type_choosen(callback_query: types.CallbackQuery,
     await Convert.next()
 
 
-@dp.message_handler(state=Convert.set_value)
-async def process_value(message: types.Message, state: FSMContext):
+@dp.message_handler(state=Convert.set_measure_value)
+async def process_measure_value(message: types.Message, state: FSMContext):
     current_measure_value = float(message.text)
     measure_class = (await state.get_data())['measure_class']
     await state.update_data(value=float(current_measure_value))
@@ -61,31 +61,93 @@ async def process_value(message: types.Message, state: FSMContext):
     await Convert.next()
 
 
-@ dp.callback_query_handler(lambda c: c.data and c.data.endswith('_units'),
-                            state=Convert.choosing_eng_unit)
-async def process_eng_units_choosen(callback_query: types.CallbackQuery,
-                                    state: FSMContext):
+@dp.callback_query_handler(lambda c: c.data and c.data.endswith('_units'),
+                           state=Convert.choosing_measure_eng_unit)
+async def process_measure_eng_units_choosen(
+        callback_query: types.CallbackQuery,
+        state: FSMContext):
     user_data = await state.get_data()
     measure_class = user_data['measure_class']
     pressed_button = keyboards.get_pressed_eu_button(measure_class,
                                                      callback_query.data)
     selected_units = pressed_button.measure_class
-    await state.update_data(eu=selected_units)
+    await state.update_data(measure_eu=selected_units)
 
-    current_measure: Measure = user_data['measure_class'](
-        user_data['value'], selected_units)
+    selected_measure_type: Measure = user_data['measure_class']
+    if selected_measure_type is AnalogSensorMeasure:
+        await bot.send_message(callback_query.from_user.id,
+                               text="Set physical measure scale low")
+        await Convert.next()
+    else:
+        current_measure: Measure = selected_measure_type(
+            user_data['value'], selected_units)
+
+        await state.update_data(measure=current_measure)
+
+        await bot.send_message(callback_query.from_user.id,
+                               text=text(
+                                   'Current value is\n',
+                                   hbold(current_measure),
+                                   '\nSelect new measure units please.',
+                               ),
+                               reply_markup=create_eu_keyboard_for_measure(
+                                   measure_class)
+                               )
+        await Convert.choosing_new_eng_unit.set()
+
+
+@dp.message_handler(state=Convert.choosing_analog_scale_low)
+async def process_physical_measure_scale_low(message: types.Message,
+                                             state: FSMContext):
+    physical_measure_scale_low = float(message.text)
+
+    await state.update_data(
+        physical_measure_scale_low=float(physical_measure_scale_low))
+    await bot.send_message(message.chat.id, "Set physical value scale hi")
+    await Convert.next()
+
+
+@dp.message_handler(state=Convert.choosing_analog_scale_hi)
+async def process_physical_measure_scale_hi(message: types.Message,
+                                            state: FSMContext):
+    physical_measure_scale_hi = float(message.text)
+
+    await state.update_data(
+        physical_measure_scale_hi=float(physical_measure_scale_hi))
+    await bot.send_message(message.chat.id, "Set physical value eu")
+    await Convert.next()
+
+
+@dp.message_handler(state=Convert.choosing_analog_eu)
+async def process_physical_measure_eu(message: types.Message,
+                                      state: FSMContext):
+    physical_measure_eu = message.text
+
+    await state.update_data(
+        physical_measure_eu=physical_measure_eu)
+
+    user_data = await state.get_data()
+    selected_measure_class = user_data['measure_class']
+    selected_units = user_data['measure_eu']
+    value = user_data['value']
+    ph_scale_low = user_data['physical_measure_scale_low']
+    ph_scale_hi = user_data['physical_measure_scale_hi']
+
+    current_measure: Measure = AnalogSensorMeasure(
+        value, selected_units, ph_scale_low, ph_scale_hi, physical_measure_eu)
 
     await state.update_data(measure=current_measure)
 
-    await bot.send_message(callback_query.from_user.id,
+    await bot.send_message(message.from_user.id,
                            text=text(
                                'Current value is\n',
                                hbold(current_measure),
                                '\nSelect new measure units please.',
                            ),
                            reply_markup=create_eu_keyboard_for_measure(
-                               measure_class)
+                               selected_measure_class)
                            )
+
     await Convert.next()
 
 
@@ -106,6 +168,7 @@ async def process_convertion_units_choosen(callback_query: types.CallbackQuery,
         new_measure_eu)
 
     await bot.send_message(callback_query.from_user.id,
-                           text=str(converted_measure)
-
+                           text=text(hbold(str(current_measure)),
+                                     '\n is equal to\n',
+                                     hbold(str(converted_measure)))
                            )
