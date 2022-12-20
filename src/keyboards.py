@@ -77,8 +77,6 @@ measure_units: Dict[type, List[List[MeasureButton]]] = {
     ]],
     Pressure: [
         [
-            MeasureButton('atm', 'atm_press_units',
-                          Pressure.SupportedUnits.atm),
             MeasureButton('Pa', 'Pa_press_units',
                           Pressure.SupportedUnits.Pa),
             MeasureButton('kPa', 'kPa_press_units',
@@ -100,6 +98,12 @@ measure_units: Dict[type, List[List[MeasureButton]]] = {
                           Pressure.SupportedUnits.mm_hg),
             MeasureButton('bar', 'bar_press_units',
                           Pressure.SupportedUnits.bar),
+        ],
+        [
+            MeasureButton('atm physical', 'atm_ph_press_units',
+                          Pressure.SupportedUnits.atm_ph),
+            MeasureButton('atm technical', 'atm_tech_press_units',
+                          Pressure.SupportedUnits.atm_t),
         ]
 
     ],

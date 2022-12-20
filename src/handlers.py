@@ -11,6 +11,14 @@ from eng_unit_converter.measure import Measure, AnalogSensorMeasure
 from aiogram.utils.markdown import text, hbold
 
 
+def is_float(value: str) -> bool:
+    try:
+        float(value)
+        return True
+    except ValueError:
+        return False
+
+
 @dp.message_handler(commands=['start'])
 async def start_converting(message: types.Message, state: FSMContext):
     await Convert.choosing_measure_type.set()
@@ -50,7 +58,8 @@ async def process_measure_type_choosen(callback_query: types.CallbackQuery,
     await Convert.next()
 
 
-@dp.message_handler(state=Convert.set_measure_value)
+@dp.message_handler(lambda message: is_float(message.text),
+                    state=Convert.set_measure_value)
 async def process_measure_value(message: types.Message, state: FSMContext):
     current_measure_value = float(message.text)
     measure_class = (await state.get_data())['measure_class']
@@ -59,6 +68,24 @@ async def process_measure_value(message: types.Message, state: FSMContext):
                            reply_markup=create_eu_keyboard_for_measure(
                                measure_class))
     await Convert.next()
+
+
+@dp.message_handler(lambda message: not is_float(message.text),
+                    state=Convert.set_measure_value)
+async def process_bad_measure_value(message: types.Message, state: FSMContext):
+    await bot.send_message(message.chat.id, "The value must be a number!")
+
+
+@dp.message_handler(lambda message: not is_float(message.text),
+                    state=Convert.choosing_analog_scale_low)
+async def process_bad_low_scale(message: types.Message, state: FSMContext):
+    await bot.send_message(message.chat.id, "The value must be a number!")
+
+
+@dp.message_handler(lambda message: not is_float(message.text),
+                    state=Convert.choosing_analog_scale_hi)
+async def process_bad_hi_scale(message: types.Message, state: FSMContext):
+    await bot.send_message(message.chat.id, "The value must be a number!")
 
 
 @dp.callback_query_handler(lambda c: c.data and c.data.endswith('_units'),
@@ -96,7 +123,8 @@ async def process_measure_eng_units_choosen(
         await Convert.choosing_new_eng_unit.set()
 
 
-@dp.message_handler(state=Convert.choosing_analog_scale_low)
+@dp.message_handler(lambda message: is_float(message.text),
+                    state=Convert.choosing_analog_scale_low)
 async def process_physical_measure_scale_low(message: types.Message,
                                              state: FSMContext):
     physical_measure_scale_low = float(message.text)
@@ -107,7 +135,8 @@ async def process_physical_measure_scale_low(message: types.Message,
     await Convert.next()
 
 
-@dp.message_handler(state=Convert.choosing_analog_scale_hi)
+@dp.message_handler(lambda message: is_float(message.text),
+                    state=Convert.choosing_analog_scale_hi)
 async def process_physical_measure_scale_hi(message: types.Message,
                                             state: FSMContext):
     physical_measure_scale_hi = float(message.text)
