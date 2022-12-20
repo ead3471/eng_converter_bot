@@ -7,6 +7,10 @@ from eng_unit_converter.measure import (Temperature,
 from dataclasses import dataclass
 from typing import List, Dict
 
+from misc import i18n
+
+_ = i18n.lazy_gettext
+
 
 @dataclass
 class MeasureButton:
@@ -17,13 +21,13 @@ class MeasureButton:
 
 main_keyboard_buttons: List[List[MeasureButton]] = [
     [
-        MeasureButton('Temperature', 'temp_measure', Temperature),
-        MeasureButton('Pressure', 'press_measure', Pressure),
-        MeasureButton('Mass Flow', 'flow_measure', MassFlow),],
+        MeasureButton(_('Temperature'), 'temp_measure', Temperature),
+        MeasureButton(_('Pressure'), 'press_measure', Pressure),
+        MeasureButton(_('Mass Flow'), 'flow_measure', MassFlow),],
     [
-        MeasureButton('Thermoresistor',
+        MeasureButton(_('Thermoresistor'),
                       'thermo_resistor_measure', ThermoResistor),
-        MeasureButton('Analogue Measure',
+        MeasureButton(_('Analogue Measure'),
                       'analog_measure', AnalogSensorMeasure)
     ],
 ]
@@ -41,7 +45,7 @@ def create_keyboard(buttons_list: List[List[MeasureButton]],
         ]
         keyboard.add(*buttons_list)
     if add_cancel:
-        keyboard.add(InlineKeyboardButton("To the beginning",
+        keyboard.add(InlineKeyboardButton(_("To the beginning"),
                                           callback_data="cancel")
                      )
     return keyboard
@@ -77,32 +81,32 @@ measure_units: Dict[type, List[List[MeasureButton]]] = {
     ]],
     Pressure: [
         [
-            MeasureButton('Pa', 'Pa_press_units',
+            MeasureButton(_('Pa'), 'Pa_press_units',
                           Pressure.SupportedUnits.Pa),
-            MeasureButton('kPa', 'kPa_press_units',
+            MeasureButton(_('kPa'), 'kPa_press_units',
                           Pressure.SupportedUnits.kPa),
-            MeasureButton('MPa', 'MPa_press_units',
+            MeasureButton(_('MPa'), 'MPa_press_units',
                           Pressure.SupportedUnits.MPa),
-            MeasureButton('kgf/sm2', 'kgs_sm2_press_units',
+            MeasureButton(_('kgf/sm2'), 'kgs_sm2_press_units',
                           Pressure.SupportedUnits.kgs_sm_2),
-            MeasureButton('kgf/m2', 'kgs_m2_press_units',
+            MeasureButton(_('kgf/m2'), 'kgs_m2_press_units',
                           Pressure.SupportedUnits.kgs_m_2),
 
         ],
         [
-            MeasureButton('mm.water.column', 'mmh20_press_units',
+            MeasureButton(_('mm.water.column'), 'mmh20_press_units',
                           Pressure.SupportedUnits.mm_h20),
-            MeasureButton('m.water.column', 'mh20_press_units',
+            MeasureButton(_('m.water.column'), 'mh20_press_units',
                           Pressure.SupportedUnits.m_h20),
-            MeasureButton('mm.hg.column', 'bar_press_units',
+            MeasureButton(_('mm.hg.column'), 'bar_press_units',
                           Pressure.SupportedUnits.mm_hg),
-            MeasureButton('bar', 'bar_press_units',
+            MeasureButton(_('bar'), 'bar_press_units',
                           Pressure.SupportedUnits.bar),
         ],
         [
-            MeasureButton('atm physical', 'atm_ph_press_units',
+            MeasureButton(_('atm physical'), 'atm_ph_press_units',
                           Pressure.SupportedUnits.atm_ph),
-            MeasureButton('atm technical', 'atm_tech_press_units',
+            MeasureButton(_('atm technical'), 'atm_tech_press_units',
                           Pressure.SupportedUnits.atm_t),
         ]
 
@@ -129,15 +133,15 @@ measure_units: Dict[type, List[List[MeasureButton]]] = {
     ],
     MassFlow: [
         [
-            MeasureButton('kg/h', 'mass_rhg_units',
+            MeasureButton(_('kg/h'), 'mass_rhg_units',
                           MassFlow.SupportedUnits.kg_h),
-            MeasureButton('kg/d', 'mass_kgd_units',
+            MeasureButton(_('kg/d'), 'mass_kgd_units',
                           MassFlow.SupportedUnits.kg_d),
-            MeasureButton('kg/s', 'mass_kgs_units',
+            MeasureButton(_('kg/s'), 'mass_kgs_units',
                           MassFlow.SupportedUnits.kg_s),
-            MeasureButton('t/h', 'mass_th_units',
+            MeasureButton(_('t/h'), 'mass_th_units',
                           MassFlow.SupportedUnits.t_h),
-            MeasureButton('t/s', 'mass_ts_units',
+            MeasureButton(_('t/s'), 'mass_ts_units',
                           MassFlow.SupportedUnits.t_s),
         ]
     ],
@@ -146,16 +150,16 @@ measure_units: Dict[type, List[List[MeasureButton]]] = {
         [
             MeasureButton('%', 'percent_units',
                           AnalogSensorMeasure.SupportedUnits.persent),
-            MeasureButton('4-20 mA', '4_20_units',
+            MeasureButton(_('4-20 mA'), '4_20_units',
                           AnalogSensorMeasure.SupportedUnits.mA_4_20),
-            MeasureButton('0-20 мА', '0_20_units',
+            MeasureButton(_('0-20 мА'), '0_20_units',
                           AnalogSensorMeasure.SupportedUnits.mA_0_20),
         ],
 
         [
-            MeasureButton('1-5 V', '1_5_units',
+            MeasureButton(_('1-5 V'), '1_5_units',
                           AnalogSensorMeasure.SupportedUnits.V_1_5),
-            MeasureButton('Physical units', 'Physical_units',
+            MeasureButton(_('Physical units'), 'Physical_units',
                           AnalogSensorMeasure.SupportedUnits.MEASURE),
         ]
 

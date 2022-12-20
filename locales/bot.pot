@@ -1,0 +1,174 @@
+# Translations template for PROJECT.
+# Copyright (C) 2022 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2022-12-20 16:52+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: src/handlers.py:28
+msgid ""
+"Hello, {user}!\n"
+"I'm a engineering units converter bot.\n"
+"Choose type of measure please."
+msgstr ""
+
+#: src/handlers.py:43
+msgid "Choose measure type."
+msgstr ""
+
+#: src/handlers.py:57
+msgid ""
+"{measure_type} is selected.\n"
+"Specify the measured value."
+msgstr ""
+
+#: src/handlers.py:71
+msgid "Specify measure units please."
+msgstr ""
+
+#: src/handlers.py:80 src/handlers.py:86 src/handlers.py:92
+msgid "The value must be a number!"
+msgstr ""
+
+#: src/handlers.py:110
+msgid "Set physical measure scale low"
+msgstr ""
+
+#: src/handlers.py:119 src/handlers.py:175
+msgid ""
+"Current value is\n"
+"{current}\n"
+"Select new measure units please."
+msgstr ""
+
+#: src/handlers.py:138
+msgid "Set physical value scale hi"
+msgstr ""
+
+#: src/handlers.py:150
+msgid "Set physical value eu"
+msgstr ""
+
+#: src/handlers.py:203
+msgid ""
+"{measure}\n"
+" is equal to\n"
+"{converted}"
+msgstr ""
+
+#: src/keyboards.py:21
+msgid "Temperature"
+msgstr ""
+
+#: src/keyboards.py:22
+msgid "Pressure"
+msgstr ""
+
+#: src/keyboards.py:23
+msgid "Mass Flow"
+msgstr ""
+
+#: src/keyboards.py:25
+msgid "Thermoresistor"
+msgstr ""
+
+#: src/keyboards.py:27
+msgid "Analogue Measure"
+msgstr ""
+
+#: src/keyboards.py:45
+msgid "To the beginning"
+msgstr ""
+
+#: src/keyboards.py:81
+msgid "Pa"
+msgstr ""
+
+#: src/keyboards.py:83
+msgid "kPa"
+msgstr ""
+
+#: src/keyboards.py:85
+msgid "MPa"
+msgstr ""
+
+#: src/keyboards.py:87
+msgid "kgf/sm2"
+msgstr ""
+
+#: src/keyboards.py:89
+msgid "kgf/m2"
+msgstr ""
+
+#: src/keyboards.py:94
+msgid "mm.water.column"
+msgstr ""
+
+#: src/keyboards.py:96
+msgid "m.water.column"
+msgstr ""
+
+#: src/keyboards.py:98
+msgid "mm.hg.column"
+msgstr ""
+
+#: src/keyboards.py:100
+msgid "bar"
+msgstr ""
+
+#: src/keyboards.py:104
+msgid "atm physical"
+msgstr ""
+
+#: src/keyboards.py:106
+msgid "atm technical"
+msgstr ""
+
+#: src/keyboards.py:133
+msgid "kg/h"
+msgstr ""
+
+#: src/keyboards.py:135
+msgid "kg/d"
+msgstr ""
+
+#: src/keyboards.py:137
+msgid "kg/s"
+msgstr ""
+
+#: src/keyboards.py:139
+msgid "t/h"
+msgstr ""
+
+#: src/keyboards.py:141
+msgid "t/s"
+msgstr ""
+
+#: src/keyboards.py:150
+msgid "4-20 mA"
+msgstr ""
+
+#: src/keyboards.py:152
+msgid "0-20 мА"
+msgstr ""
+
+#: src/keyboards.py:157
+msgid "1-5 V"
+msgstr ""
+
+#: src/keyboards.py:159
+msgid "Physical units"
+msgstr ""
+
