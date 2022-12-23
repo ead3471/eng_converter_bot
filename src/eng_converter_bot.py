@@ -2,7 +2,6 @@
 from misc import dp
 
 from aiogram.utils import executor
-
 import handlers
 
 if __name__ == "__main__":

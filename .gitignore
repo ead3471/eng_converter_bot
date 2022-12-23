@@ -1,5 +1,5 @@
 src/__pycache__/*.pyc
-
+src/__pycache__/
 .DS_Store
 .huskyrc.json
 out
@@ -53,3 +53,4 @@ dist/**
 .vscode
 venv
 .env
+tests
