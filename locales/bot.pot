@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-12-20 16:52+0300\n"
+"POT-Creation-Date: 2022-12-23 15:41+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,158 +17,169 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: src/handlers.py:28
+#: src/handlers.py:41
 msgid ""
 "Hello, {user}!\n"
 "I'm a engineering units converter bot.\n"
-"Choose type of measure please."
+"Supported commands:\n"
+"- /start back to this point\n"
+"- /cstart start measure type choosing\n"
+"- /lang - set language"
 msgstr ""
 
-#: src/handlers.py:43
-msgid "Choose measure type."
+#: src/handlers.py:58
+msgid "Choose measure type:"
 msgstr ""
 
-#: src/handlers.py:57
+#: src/handlers.py:75
+msgid "Select your preferred language"
+msgstr ""
+
+#: src/handlers.py:90
+msgid "Language is changed to {locale_name}"
+msgstr ""
+
+#: src/handlers.py:107
 msgid ""
 "{measure_type} is selected.\n"
 "Specify the measured value."
 msgstr ""
 
-#: src/handlers.py:71
+#: src/handlers.py:121
 msgid "Specify measure units please."
 msgstr ""
 
-#: src/handlers.py:80 src/handlers.py:86 src/handlers.py:92
+#: src/handlers.py:130 src/handlers.py:136 src/handlers.py:142
 msgid "The value must be a number!"
 msgstr ""
 
-#: src/handlers.py:110
+#: src/handlers.py:160
 msgid "Set physical measure scale low"
 msgstr ""
 
-#: src/handlers.py:119 src/handlers.py:175
+#: src/handlers.py:169 src/handlers.py:225
 msgid ""
 "Current value is\n"
 "{current}\n"
 "Select new measure units please."
 msgstr ""
 
-#: src/handlers.py:138
+#: src/handlers.py:188
 msgid "Set physical value scale hi"
 msgstr ""
 
-#: src/handlers.py:150
+#: src/handlers.py:200
 msgid "Set physical value eu"
 msgstr ""
 
-#: src/handlers.py:203
+#: src/handlers.py:253
 msgid ""
 "{measure}\n"
 " is equal to\n"
 "{converted}"
 msgstr ""
 
-#: src/keyboards.py:21
+#: src/keyboards.py:32
 msgid "Temperature"
 msgstr ""
 
-#: src/keyboards.py:22
+#: src/keyboards.py:33
 msgid "Pressure"
 msgstr ""
 
-#: src/keyboards.py:23
+#: src/keyboards.py:34
 msgid "Mass Flow"
 msgstr ""
 
-#: src/keyboards.py:25
+#: src/keyboards.py:36
 msgid "Thermoresistor"
 msgstr ""
 
-#: src/keyboards.py:27
+#: src/keyboards.py:38
 msgid "Analogue Measure"
 msgstr ""
 
-#: src/keyboards.py:45
+#: src/keyboards.py:56
 msgid "To the beginning"
 msgstr ""
 
-#: src/keyboards.py:81
+#: src/keyboards.py:92
 msgid "Pa"
 msgstr ""
 
-#: src/keyboards.py:83
+#: src/keyboards.py:94
 msgid "kPa"
 msgstr ""
 
-#: src/keyboards.py:85
+#: src/keyboards.py:96
 msgid "MPa"
 msgstr ""
 
-#: src/keyboards.py:87
+#: src/keyboards.py:98
 msgid "kgf/sm2"
 msgstr ""
 
-#: src/keyboards.py:89
+#: src/keyboards.py:100
 msgid "kgf/m2"
 msgstr ""
 
-#: src/keyboards.py:94
+#: src/keyboards.py:105
 msgid "mm.water.column"
 msgstr ""
 
-#: src/keyboards.py:96
+#: src/keyboards.py:107
 msgid "m.water.column"
 msgstr ""
 
-#: src/keyboards.py:98
+#: src/keyboards.py:109
 msgid "mm.hg.column"
 msgstr ""
 
-#: src/keyboards.py:100
+#: src/keyboards.py:111
 msgid "bar"
 msgstr ""
 
-#: src/keyboards.py:104
+#: src/keyboards.py:115
 msgid "atm physical"
 msgstr ""
 
-#: src/keyboards.py:106
+#: src/keyboards.py:117
 msgid "atm technical"
 msgstr ""
 
-#: src/keyboards.py:133
+#: src/keyboards.py:144
 msgid "kg/h"
 msgstr ""
 
-#: src/keyboards.py:135
+#: src/keyboards.py:146
 msgid "kg/d"
 msgstr ""
 
-#: src/keyboards.py:137
+#: src/keyboards.py:148
 msgid "kg/s"
 msgstr ""
 
-#: src/keyboards.py:139
+#: src/keyboards.py:150
 msgid "t/h"
 msgstr ""
 
-#: src/keyboards.py:141
+#: src/keyboards.py:152
 msgid "t/s"
 msgstr ""
 
-#: src/keyboards.py:150
+#: src/keyboards.py:161
 msgid "4-20 mA"
 msgstr ""
 
-#: src/keyboards.py:152
+#: src/keyboards.py:163
 msgid "0-20 мА"
 msgstr ""
 
-#: src/keyboards.py:157
+#: src/keyboards.py:168
 msgid "1-5 V"
 msgstr ""
 
-#: src/keyboards.py:159
+#: src/keyboards.py:170
 msgid "Physical units"
 msgstr ""
 

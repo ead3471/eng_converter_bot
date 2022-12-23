@@ -1,4 +1,4 @@
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
 from eng_unit_converter.measure import (Temperature,
                                         MassFlow,
                                         ThermoResistor,
@@ -17,6 +17,14 @@ class MeasureButton:
     title: str
     callback: str
     measure_class: type
+
+
+commands_menu_keyboard = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+commands_menu_keyboard.add(
+    KeyboardButton("/start"),
+    KeyboardButton("/cstart"),
+    KeyboardButton("/lang")
+)
 
 
 main_keyboard_buttons: List[List[MeasureButton]] = [

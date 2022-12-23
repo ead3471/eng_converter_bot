@@ -1,8 +1,11 @@
 from dataclasses import dataclass, field
-from typing import Any, Tuple
+from aiogram.contrib.middlewares.i18n import I18nMiddleware as BaseI18nMiddleware
+from typing import Tuple, Any
+from pprint import pprint
+from aiogram.types import CallbackQuery
+from aiogram.utils.callback_data import CallbackData
 
-from aiogram.contrib.middlewares.i18n import (I18nMiddleware
-                                              as BaseI18nMiddleware)
+chat_settings = CallbackData("chat", "id", "property", "value")
 
 
 @dataclass
@@ -16,13 +19,18 @@ class LanguageData:
 
 
 class I18nMiddleware(BaseI18nMiddleware):
+
+    users = {}
+
     AVAILABLE_LANGUAGES = {
         "en": LanguageData("🇺🇸", "English"),
-        "ru": LanguageData("🇷🇺", "Русский")
+        "ru": LanguageData("🇷🇺", "Русский"),
     }
 
     async def get_user_locale(self, action: str, args: Tuple[Any]) -> str:
-        data: dict = args[-1]
-        if "chat" in data:
-            return data["chat"].language or self.default
-        return self.default
+        if isinstance(args[0], CallbackQuery):
+            cdata: CallbackQuery = args[0]
+            if cdata.data and "chat" in cdata.data:
+                settings = chat_settings.parse(cdata.data)
+                self.users[cdata.from_user.id] = settings['value']
+        return self.users.get(args[0].from_user.id, self.default)

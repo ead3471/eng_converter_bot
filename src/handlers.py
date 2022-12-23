@@ -1,17 +1,23 @@
-from aiogram.dispatcher.filters import CommandStart
+
 from misc import dp, bot
 
 from aiogram import types
 from keyboards import (main_keyboard,
                        main_keyboard_buttons,
+                       commands_menu_keyboard,
                        create_eu_keyboard_for_measure)
 import keyboards
 from aiogram.dispatcher import FSMContext
 from state_machine import Convert
 from eng_unit_converter.measure import Measure, AnalogSensorMeasure
-from aiogram.utils.markdown import text, hbold
+from aiogram.utils.markdown import hbold
 from misc import i18n
-_ = i18n.lazy_gettext
+from middlewares import I18nMiddleware
+from aiogram.utils.callback_data import CallbackData
+
+from middlewares import chat_settings
+
+_ = i18n.gettext
 
 
 def is_float(value: str) -> bool:
@@ -22,27 +28,70 @@ def is_float(value: str) -> bool:
         return False
 
 
-@dp.message_handler(CommandStart())
-async def start_converting(message: types.Message, state: FSMContext):
-    await Convert.choosing_measure_type.set()
+@dp.message_handler(commands=['start'], state="*")
+async def start(message: types.Message, state: FSMContext):
+    if state is not None:
+        await state.finish()
+    markup = types.InlineKeyboardMarkup()
+    markup.add(types.InlineKeyboardButton(
+        "Start convertion", callback_data='start'))
+    markup.add(types.InlineKeyboardButton(
+        "Change language", callback_data='language'))
     await bot.send_message(message.from_user.id,
-                           _(
-                               "Hello, {user}!\n"
-                               "I'm a engineering units converter bot.\n"
-                               "Choose type of measure please.").format(
+                           text=_("Hello, {user}!\n"
+                                  "I'm a engineering units converter bot.\n"
+                                  "Supported commands:\n"
+                                  "- /start back to this point\n"
+                                  "- /cstart start measure type choosing\n"
+                                  "- /lang - set language")
+                           .format(
                                user=hbold(message.from_user.full_name)
                            ),
-                           reply_markup=main_keyboard)
+                           reply_markup=commands_menu_keyboard
+                           )
 
 
-@dp.callback_query_handler(lambda c: c.data and c.data == 'cancel',
-                           state='*')
-async def process_cancel(callback_query: types.CallbackQuery,
-                         state: FSMContext):
+@dp.message_handler(commands=["cstart"], state="*")
+async def choose_convertion(message: types.Message):
     await Convert.choosing_measure_type.set()
-    await bot.send_message(chat_id=callback_query.from_user.id,
-                           text=_("Choose measure type."),
-                           reply_markup=main_keyboard)
+    await bot.send_message(message.from_user.id,
+                           text=_("Choose measure type:"),
+                           reply_markup=main_keyboard
+                           )
+
+
+@dp.message_handler(commands=['lang'], state="*")
+async def choose_language(message: types.Message):
+    markup = types.InlineKeyboardMarkup()
+    for code, language in i18n.AVAILABLE_LANGUAGES.items():
+        markup.add(
+            types.InlineKeyboardButton(
+                text=language.label,
+                callback_data=chat_settings.new(id=message.from_id,
+                                                property="language",
+                                                value=code)))
+
+    await bot.send_message(message.from_user.id,
+                           text=_("Select your preferred language"),
+                           reply_markup=markup)
+
+
+@dp.callback_query_handler(chat_settings.filter(property="language"), state="*")
+@ dp.callback_query_handler(lambda c: c.data and c.data.startswith('lang_'),
+                            state='*')
+async def set_language(callback_query: types.CallbackQuery, callback_data: dict):
+
+    locale = callback_data["value"]
+
+    print(f"\nbase lag = {i18n.ctx_locale.get()}")
+    i18n.ctx_locale.set(locale)
+
+    await bot.send_message(callback_query.from_user.id,
+                           text=_("Language is changed to "
+                                  "{locale_name}").
+                           format(
+                               locale_name=i18n.AVAILABLE_LANGUAGES[locale].
+                               label))
 
 
 @dp.callback_query_handler(lambda c: c.data and c.data.endswith('measure'),
@@ -121,7 +170,7 @@ async def process_measure_eng_units_choosen(
                                    'Current value is\n'
                                    '{current}\n'
                                    'Select new measure units please.'
-                               ).format(current=hbold(current_measure)),
+                               ) .format(current=hbold(current_measure)),
                                reply_markup=create_eu_keyboard_for_measure(
                                    measure_class)
                                )
