@@ -244,7 +244,6 @@ async def process_convertion_units_choosen(callback_query: types.CallbackQuery,
                                                      callback_query.data)
 
     new_measure_eu = pressed_button.measure_class
-
     current_measure: Measure = user_data['measure']
     converted_measure: Measure = current_measure.convert_to(
         new_measure_eu)
@@ -255,3 +254,13 @@ async def process_convertion_units_choosen(callback_query: types.CallbackQuery,
                              '{converted}')
                            .format(measure=hbold(str(current_measure)),
                                    converted=hbold(str(converted_measure))))
+
+
+@dp.callback_query_handler(lambda c: c.data and c.data == 'step_back',
+                           state="*")
+async def step_back(callback_query: types.CallbackQuery,
+                    state: FSMContext):
+
+    current_state = await state.get_state()
+    print(current_state)
+    Convert.previous()

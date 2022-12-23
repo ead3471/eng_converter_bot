@@ -43,7 +43,7 @@ main_keyboard_buttons: List[List[MeasureButton]] = [
 
 def create_keyboard(buttons_list: List[List[MeasureButton]],
                     row_width: int = 3,
-                    add_cancel: bool = True
+                    step_back: bool = True
                     ) -> InlineKeyboardMarkup:
     keyboard = InlineKeyboardMarkup(row_width=row_width)
     for row in buttons_list:
@@ -52,9 +52,9 @@ def create_keyboard(buttons_list: List[List[MeasureButton]],
             for button in row
         ]
         keyboard.add(*buttons_list)
-    if add_cancel:
-        keyboard.add(InlineKeyboardButton(_("To the beginning"),
-                                          callback_data="cancel")
+    if step_back:
+        keyboard.add(InlineKeyboardButton(_("Шаг назад"),
+                                          callback_data="step_back")
                      )
     return keyboard
 
@@ -68,7 +68,7 @@ def get_pressed_eu_button(measure_type: type,
     return get_pressed_button(measure_units[measure_type], callback_data)
 
 
-main_keyboard = create_keyboard(main_keyboard_buttons, add_cancel=False)
+main_keyboard = create_keyboard(main_keyboard_buttons, step_back=False)
 
 
 def get_pressed_button(keyboard_buttons: List[List[MeasureButton]],
