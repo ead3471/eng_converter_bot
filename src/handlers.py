@@ -76,10 +76,10 @@ async def choose_language(message: types.Message):
                            reply_markup=markup)
 
 
-@dp.callback_query_handler(chat_settings.filter(property="language"), state="*")
-@ dp.callback_query_handler(lambda c: c.data and c.data.startswith('lang_'),
-                            state='*')
-async def set_language(callback_query: types.CallbackQuery, callback_data: dict):
+@dp.callback_query_handler(chat_settings.filter(property="language"),
+                           state="*")
+async def set_language(callback_query: types.CallbackQuery,
+                       callback_data: dict):
 
     locale = callback_data["value"]
 

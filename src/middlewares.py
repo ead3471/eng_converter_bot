@@ -1,9 +1,9 @@
-from dataclasses import dataclass, field
-from aiogram.contrib.middlewares.i18n import I18nMiddleware as BaseI18nMiddleware
-from typing import Tuple, Any
-from pprint import pprint
-from aiogram.types import CallbackQuery
 from aiogram.utils.callback_data import CallbackData
+from aiogram.types import CallbackQuery
+from typing import Tuple, Any
+from dataclasses import dataclass, field
+from aiogram.contrib.middlewares.i18n import (
+    I18nMiddleware as BaseI18nMiddleware)
 
 chat_settings = CallbackData("chat", "id", "property", "value")
 
