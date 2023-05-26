@@ -1,11 +1,15 @@
 ## Engeneering units convertion bot
 The aim of a project is a provide handy util for conversion some measures, used in technology.
+You can chat with bot [here](https://t.me/eng_unit_converter_bot)
+
 ### Supported conversions:
  - Temperature(C, F, K)
  - Thermoresistors(Pt100, 100P, Ni100, Cu100)
  - Mass Flow
  - Pressure
  - Analog 4-20 mA, 1-5V, 1-10V to physical measure
+
+
 
 ### Supported languages:
  - Russian
