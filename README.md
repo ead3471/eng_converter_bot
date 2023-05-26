@@ -1,5 +1,6 @@
 ## Engeneering units convertion bot
-The aim of a project is a provide handy util for conversion some measures, used in technology.
+The aim of a project is a provide handy util for conversion some engineering units, used in technology.\
+
 You can chat with bot [here](https://t.me/eng_unit_converter_bot)
 
 ### Supported conversions:
