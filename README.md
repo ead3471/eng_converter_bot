@@ -33,7 +33,7 @@ You can chat with bot [here](https://t.me/eng_unit_converter_bot)
     ```
 5. Run docker compose
     ```
-    docker-compose up 
+    docker-compose up --build -d
      ```
 
 
