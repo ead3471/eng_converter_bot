@@ -1,0 +1,19 @@
+version: '3.3'
+name: eng_conversion_bot
+
+services:
+
+
+  bot:
+    build:
+      context: .
+    restart: always
+    volumes:
+      - logs_value:/app/logs/
+    env_file:
+      - .env 
+    container_name: eng_conversion_bot
+
+volumes:
+  logs_value:
+
